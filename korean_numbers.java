@@ -38,8 +38,12 @@ public class Korean_Numbers {
     System.out.println("Testing readNumberFile()");
     
     HashMap<Integer, String> sinoMap = new HashMap<>();
+    HashMap<Integer, String> nativeMap = new HashMap<>();
     
     readNumberFile("sinoNumbers.txt", sinoMap);
     System.out.println(sinoMap.keySet());
+
+    readNumberFile("nativeNumbers.txt", nativeMap);
+    System.out.println(nativeMap.keySet());
   }
 }
