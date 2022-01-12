@@ -6,6 +6,8 @@ import java.util.Scanner;
 
 import java.lang.String;
 
+import java.math.BigDecimal;
+
 public class Korean_Numbers {
 
   private static final int SINO = 0;
@@ -37,10 +39,8 @@ public class Korean_Numbers {
   }
 
   //outside code decides which number system to use
-  public static String numToWords(int num, HashMap<String, String> numberMap) {
-    String numStr = Integer.toString(num);
-
-    if (numberMap.containsKey(numStr)) return numberMap.get(numStr);
+  public static String numToWords(long num, HashMap<String, String> numberMap) {
+    String numStr = Long.toString(num);
 
     //builing the String
     String result = "";
@@ -51,54 +51,50 @@ public class Korean_Numbers {
     int highestPower = length-1;
     int currentPower = highestPower;
 
-    //THINGS TO CONSIDER
-    //what if the digit is 0
-    //what to do when currentPower is 5, 6, or 7 (how to pronouce)
-    //e.g. 123456, 223456, 100001
-    //consider numbers with powers of 10 greater than 8--generalize
+    System.out.println("highest power: " + highestPower);
 
-    for (int i = 0; i < length; i++) {
-
+    //if the number is a power of 10 or is a key in the numberMap
+    if (numberMap.containsKey(numStr)) {
+      if (highestPower == 8 || highestPower == 12) {
+        return "일" + numberMap.get(numStr);
+      }
+      return numberMap.get(numStr);
     }
-    
-    
-    
-    
-    
-    
-    
+
+    //iterate through numStr
     for (int i = 0; i < length; i++) {
-      String digit = Character.toString(numStr.charAt(i));
-      System.out.println(digit); //returns digit as char
-      
-      if (!digit.equals("0")) { //can do everything else
-        //System.out.println("Digit is not 0");
-      }
-        
-      result += numberMap.get(digit);
+      //get power of 10
+      long powerOf10 = (long) Math.pow(10, currentPower);
+      //convert to int
+      System.out.println("powerOf10: " + powerOf10);
 
-      //if (digit instanceof String) System.out.println("Success");
-      //how to get the right word for each power (e.g. 967 and get the 100 from 9 * 100)
+      String pow10Str = Long.toString(powerOf10);
+      String pow10Key = numberMap.get(pow10Str);
 
-      if (currentPower == 8 || currentPower <=4) {
-        int powerOf10 = 10 * currentPower;
-        result += numberMap.get(Integer.toString(powerOf10));
-      }
-      
-      if (currentPower >= 5 && currentPower <= 7) {
-        //powers 5-7 (inclusive)
-      }
+      if (pow10Key.length() == 2) { //if the powerOf10's value is of length 2
+        System.out.println(pow10Key);
 
-        else if (currentPower == 0) { //digit is a key in the hashmap
-        result += numberMap.get(digit);
+        //get second syllable
+        String syllable2 = Character.toString(pow10Key.charAt(1));
+
+        System.out.println(syllable2);
+
+        if (currentPower < 8) {
+          //divide by 10^4
+          
+          //get the number
+        }
+
+        else if (currentPower == 9) {
+          //divide by 10^8
         }
       }
 
-      System.out.println("current result: " + result);
+      //get digit
+      String digit = Character.toString(numStr.charAt(i));
+      //System.out.println(digit); //returns digit as char
+
     }
-    
-    
-    
     return result;
   }
 
@@ -117,6 +113,28 @@ public class Korean_Numbers {
 
     //testing numToWords
     System.out.println(numToWords(99, sinoMap));
-    System.out.println(numToWords(99, nativeMap));
+    //System.out.println(numToWords(99, nativeMap));
+
+    /*
+    System.out.println(numToWords(1, sinoMap));
+    System.out.println(numToWords(10, sinoMap));
+    System.out.println(numToWords(100, sinoMap));
+    System.out.println(numToWords(1000, sinoMap));
+    System.out.println(numToWords(10000, sinoMap));
+    System.out.println(numToWords(100000, sinoMap));
+    */
+
+    /*
+    System.out.println(numToWords(1000000, sinoMap));
+    System.out.println(numToWords(10000000, sinoMap));
+    System.out.println(numToWords(100000000, sinoMap));
+    System.out.println(numToWords(1000000000, sinoMap));
+    System.out.println(numToWords(10000000000L, sinoMap));
+    System.out.println(numToWords(100000000000L, sinoMap));
+    System.out.println(numToWords(1000000000000L, sinoMap));
+    */
+    System.out.println(numToWords(120000, sinoMap));
+    System.out.println(numToWords(1200000, sinoMap));
+    System.out.println(numToWords(12000000, sinoMap));
   }
 }
