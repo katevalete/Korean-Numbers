@@ -61,8 +61,10 @@ public class Korean_Numbers {
       return numberMap.get(numStr);
     }
 
+    int index = 0;
     //iterate through numStr
-    for (int i = 0; i < length; i++) {
+    while (index < length) {
+      System.out.println("current i: " + index);
       //get power of 10
       long powerOf10 = (long) Math.pow(10, currentPower);
       //convert to int
@@ -72,27 +74,93 @@ public class Korean_Numbers {
       String pow10Key = numberMap.get(pow10Str);
 
       if (pow10Key.length() == 2) { //if the powerOf10's value is of length 2
-        System.out.println(pow10Key);
+        System.out.println("power of 10 key: " + pow10Key);
 
         //get second syllable
         String syllable2 = Character.toString(pow10Key.charAt(1));
 
-        System.out.println(syllable2);
+        System.out.println("second syllable: " + syllable2);
 
         if (currentPower < 8) {
+          System.out.println("current power < 8");
           //divide by 10^4
+          long numCopy = Long.parseLong(numStr.substring(index, length));
+          System.out.println("number copy: " + numCopy);
+          numCopy /= 10000;
+          System.out.println("substring: " + numCopy);
+
+          //how to get the appropriate length?
+          int subStrLength = (Long.toString(numCopy)).length();
+          System.out.println("substring length: " + subStrLength);
           
-          //get the number
+          //call numToWords for the SUBSTRING
+          //result += numToWords(numCopy, numberMap) + "만 ";
+
+          //update index
+          index += subStrLength;
+          System.out.println("new index: " + index);
+          currentPower -= subStrLength;
+          System.out.println("new current power: " + currentPower);
         }
 
-        else if (currentPower == 9) {
+        else if (currentPower > 8) {
+          System.out.println("current power > 8");
           //divide by 10^8
+          long numCopy = Long.parseLong(numStr.substring(index, length));
+          System.out.println("number copy: " + numCopy);
+          numCopy /= 100000000;
+          System.out.println("substring: " + numCopy);
+
+          //how to get the appropriate length?
+          int subStrLength = (Long.toString(numCopy)).length();
+          System.out.println("substring length: " + subStrLength);
+          
+          //call numToWords for numCopy
+          //result += numToWords(numCopy, numberMap) + "억 ";
+
+          //update index
+          index += subStrLength;
+          System.out.println("new index: " + index);
+
+          //LOOKING AT NEW NUMBER NOW (different power of 10)
+          currentPower -= subStrLength;
+          System.out.println("new current power: " + currentPower);
         }
       }
 
-      //get digit
-      String digit = Character.toString(numStr.charAt(i));
-      //System.out.println(digit); //returns digit as char
+      else { //powerOf10's length is 1
+        System.out.println("powerOf10's length is 1");
+        System.out.println("pow10Key: " + pow10Key);
+        //get digit in numStr
+        String digit = Character.toString(numStr.charAt(index));
+        //System.out.println(digit); //returns digit as char
+        //need substring
+        long numCopy = Long.parseLong(numStr.substring(index, length));
+        System.out.println("number copy: " + numCopy);
+        
+        System.out.println("current power: " + currentPower);
+
+        //if highest power and digit is 1 for 10^12 and 10^8
+        if (currentPower == highestPower && (highestPower == 8 || highestPower == 12) && digit.equals("1")) {
+          result += "일" + pow10Key;
+        }
+        
+        else {
+          if (!digit.equals("0")) {
+            if (currentPower == 0) result += numberMap.get(digit);
+            else {
+              if (!digit.equals("1")) result += numberMap.get(digit);
+              result += pow10Key;
+            }
+          }
+        }
+        
+        index++;
+        currentPower--;
+      }
+
+      System.out.println("current result: " + result);
+      System.out.println();
 
     }
     return result;
@@ -133,8 +201,16 @@ public class Korean_Numbers {
     System.out.println(numToWords(100000000000L, sinoMap));
     System.out.println(numToWords(1000000000000L, sinoMap));
     */
-    System.out.println(numToWords(120000, sinoMap));
-    System.out.println(numToWords(1200000, sinoMap));
-    System.out.println(numToWords(12000000, sinoMap));
+    
+    //System.out.println(numToWords(120000, sinoMap));
+    //System.out.println(numToWords(1200000, sinoMap));
+    //System.out.println(numToWords(1234567898, sinoMap));
+
+    //System.out.println(numToWords(1234, sinoMap));
+    //System.out.println(numToWords(123, sinoMap));
+    //System.out.println(numToWords(12, sinoMap));
+    //System.out.println(numToWords(1, sinoMap));
+
+    System.out.println(numToWords(1002, sinoMap));
   }
 }
