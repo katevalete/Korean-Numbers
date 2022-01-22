@@ -9,6 +9,7 @@ import java.lang.String;
 import java.math.BigDecimal;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Korean_Numbers {
 
@@ -41,7 +42,7 @@ public class Korean_Numbers {
   }
 
   public static String numToSino(long num, HashMap<String, String> numberMap) {
-    System.out.println("converting the number " + num);
+    //System.out.println("converting the number " + num);
     String numStr = Long.toString(num);
 
     //builing the String
@@ -53,7 +54,7 @@ public class Korean_Numbers {
     int highestPower = length-1;
     int currentPower = highestPower;
 
-    System.out.println("highest power: " + highestPower);
+    //System.out.println("highest power: " + highestPower);
 
     //if the number is a power of 10 or is a key in the numberMap
     if (numberMap.containsKey(numStr)) {
@@ -66,81 +67,81 @@ public class Korean_Numbers {
     int index = 0;
     //iterate through numStr
     while (index < length) {
-      System.out.println("current i: " + index);
+      //System.out.println("current i: " + index);
       //get power of 10
       long powerOf10 = (long) Math.pow(10, currentPower);
       //convert to int
-      System.out.println("powerOf10: " + powerOf10);
+      //System.out.println("powerOf10: " + powerOf10);
 
       String pow10Str = Long.toString(powerOf10);
       String pow10Key = numberMap.get(pow10Str); //should be value
 
       if (pow10Key.length() == 2) { //if the powerOf10's value is of length 2
-        System.out.println("power of 10 key: " + pow10Key);
+        //System.out.println("power of 10 key: " + pow10Key);
 
         //get second syllable
         String syllable2 = Character.toString(pow10Key.charAt(1));
 
-        System.out.println("second syllable: " + syllable2);
+        //System.out.println("second syllable: " + syllable2);
 
         if (currentPower < 8) {
-          System.out.println("current power < 8");
+          //System.out.println("current power < 8");
           //divide by 10^4
           long numCopy = Long.parseLong(numStr.substring(index, length));
-          System.out.println("number copy: " + numCopy);
+          //System.out.println("number copy: " + numCopy);
           numCopy /= 10000;
-          System.out.println("substring: " + numCopy);
+          //System.out.println("substring: " + numCopy);
 
           //how to get the appropriate length?
           int subStrLength = (Long.toString(numCopy)).length();
-          System.out.println("substring length: " + subStrLength);
+          //System.out.println("substring length: " + subStrLength);
           
           //call numToWords for the SUBSTRING
           result += numToSino(numCopy, numberMap) + "만 ";
 
           //update index
           index += subStrLength;
-          System.out.println("new index: " + index);
+          //System.out.println("new index: " + index);
           currentPower -= subStrLength;
-          System.out.println("new current power: " + currentPower);
+          //System.out.println("new current power: " + currentPower);
         }
 
         else if (currentPower > 8) {
-          System.out.println("current power > 8");
+          //System.out.println("current power > 8");
           //divide by 10^8
           long numCopy = Long.parseLong(numStr.substring(index, length));
-          System.out.println("number copy: " + numCopy);
+          //System.out.println("number copy: " + numCopy);
           numCopy /= 100000000;
-          System.out.println("substring: " + numCopy);
+          //System.out.println("substring: " + numCopy);
 
           //how to get the appropriate length?
           int subStrLength = (Long.toString(numCopy)).length();
-          System.out.println("substring length: " + subStrLength);
+          //System.out.println("substring length: " + subStrLength);
           
           //call numToWords for numCopy
           result += numToSino(numCopy, numberMap) + "억 ";
 
           //update index
           index += subStrLength;
-          System.out.println("new index: " + index);
+          //System.out.println("new index: " + index);
 
           //LOOKING AT NEW NUMBER NOW (different power of 10)
           currentPower -= subStrLength;
-          System.out.println("new current power: " + currentPower);
+          //System.out.println("new current power: " + currentPower);
         }
       }
 
       else { //powerOf10's length is 1
-        System.out.println("powerOf10's length is 1");
-        System.out.println("pow10Key: " + pow10Key);
+        //System.out.println("powerOf10's length is 1");
+        //System.out.println("pow10Key: " + pow10Key);
         //get digit in numStr
         String digit = Character.toString(numStr.charAt(index));
         //System.out.println(digit); //returns digit as char
         //need substring
         long numCopy = Long.parseLong(numStr.substring(index, length));
-        System.out.println("number copy: " + numCopy);
+        //System.out.println("number copy: " + numCopy);
         
-        System.out.println("current power: " + currentPower);
+        //System.out.println("current power: " + currentPower);
 
         //if highest power and digit is 1 for 10^12 and 10^8
         if (currentPower == highestPower && (highestPower == 8 || highestPower == 12) && digit.equals("1")) {
@@ -161,15 +162,15 @@ public class Korean_Numbers {
         currentPower--;
       }
 
-      System.out.println("current result: " + result);
-      System.out.println();
+      //System.out.println("current result: " + result);
+      //System.out.println();
 
     }
     return result;
   }
 
   public static String numToNative(long num, HashMap<String, String> numberMap) {
-    System.out.println("converting the number " + num);
+    //System.out.println("converting the number " + num);
     String numStr = Long.toString(num);
 
     if (numberMap.containsKey(numStr)) {
@@ -202,71 +203,86 @@ public class Korean_Numbers {
     }
   }
 
+  public static boolean isInteger(String input) {
+    try {
+      int value = Integer.parseInt(input);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  }
+
+  public static boolean isLong(String input) {
+    try {
+      Long value = Long.parseLong(input);
+      return true;
+    } catch (NumberFormatException e) {
+      return false;
+    }
+  }
+
+  //checks valid user input for a range
+  //entering MAX means 10^13 is the max number
+  public static long getMax(Scanner scan) {
+    //how to check if an input is an Integer or a Long??
+    String input = scan.next();
+    //System.out.println("input: " + input);
+    
+    while (!input.strip().equals("MAX") && !isInteger(input) && !isLong(input)) {
+      System.out.println("Invalid input. Try again");
+      System.out.println("Enter the maximum value for Sino-Korean numbers: ");
+      input = scan.next();
+    }
+    
+    if (input.strip().equals("MAX")) {
+      return 10000000000000L;
+    }
+    else { //see if you can parseInt or parseLong
+      if (isInteger(input)) {
+        return (long) Integer.parseInt(input);
+      }
+      return Long.parseLong(input);
+    }
+    //if (scan.hasNextLong()) System.out.println("valid input");
+  }
+
   public static void main(String[] args) {
-    System.out.println("Hello");
-    System.out.println("Testing readNumberFile()");
+    //System.out.println("Hello");
+    //System.out.println("Testing readNumberFile()");
     
     HashMap<String, String> sinoMap = new HashMap<>();
     HashMap<String, String> nativeMap = new HashMap<>();
     
     readNumberFile("sinoNumbers.txt", sinoMap);
-    System.out.println(sinoMap.keySet());
+    //System.out.println(sinoMap.keySet());
 
     readNumberFile("nativeNumbers.txt", nativeMap);
-    System.out.println(nativeMap.keySet());
+    //System.out.println(nativeMap.keySet());
 
-    //randomly choose between SINO and NATIVE
+    //randomly choose between SINO and NATIVE (or let user decide)
     Random rand = new Random();
     int type = rand.nextInt(2);
-    System.out.println("type: " + type);
+    //System.out.println("type: " + type);
 
-    Long randNum = rand.nextLong(); //find out how to set range
+    //let user set the maximum value for Sino-Korean numbers
+    System.out.println("Enter the maximum value for Sino-Korean numbers: ");
+    Scanner scan = new Scanner(System.in);
+    //System.out.println("user input: " + input);
+    Long max = getMax(scan);
+    System.out.println("Max: " + max);
 
-    
-
-    //testing numToWords
-    //System.out.println(numToWords(99, sinoMap));
-    //System.out.println(numToWords(99, nativeMap));
-
-    /*
-    System.out.println(numToWords(1, sinoMap));
-    System.out.println(numToWords(10, sinoMap));
-    System.out.println(numToWords(100, sinoMap));
-    System.out.println(numToWords(1000, sinoMap));
-    System.out.println(numToWords(10000, sinoMap));
-    System.out.println(numToWords(100000, sinoMap));
-    */
-
-    /*
-    System.out.println(numToWords(1000000, sinoMap));
-    System.out.println(numToWords(10000000, sinoMap));
-    System.out.println(numToWords(100000000, sinoMap));
-    System.out.println(numToWords(1000000000, sinoMap));
-    System.out.println(numToWords(10000000000L, sinoMap));
-    System.out.println(numToWords(100000000000L, sinoMap));
-    System.out.println(numToWords(1000000000000L, sinoMap));
-    */
-    
-    //System.out.println(numToWords(120000, sinoMap));
-    //System.out.println(numToWords(1200000, sinoMap));
-    //System.out.println(numToWords(1234567898, sinoMap));
-
-    //System.out.println(numToWords(1234, sinoMap));
-    //System.out.println(numToWords(123, sinoMap));
-    //System.out.println(numToWords(12, sinoMap));
-    //System.out.println(numToWords(1, sinoMap));
-
-    /*
-    System.out.println(numToWords(92, sinoMap));
-    System.out.println(numToWords(123456, sinoMap));
-    System.out.println(numToWords(999999, sinoMap));
-    System.out.println(numToWords(1234567, sinoMap));
-    System.out.println(numToWords(12345678987L, sinoMap));
-    System.out.println(numToWords(123456789876L, sinoMap));
-    System.out.println(numToWords(1234567898765L, sinoMap));
-    */
-
-    //System.out.println(numToWords(1234, sinoMap, SINO));
-    //System.out.println(numToWords(99, nativeMap, NATIVE));
+    if (type == SINO) {
+      System.out.println("Sino-Korean number: ");
+      //let user enter range??
+      Long randLong = ThreadLocalRandom.current().nextLong(0, 10000000000000L); 
+      System.out.println(randLong);
+      System.out.println(numToWords(randLong, sinoMap, SINO));
+    }
+    else {
+      System.out.println("Native-Korean number: ");
+      Long randInt = (long) rand.nextInt(100);
+      System.out.println(randInt);
+      System.out.println(numToWords(randInt, nativeMap, NATIVE));
+    }
   }
 }
