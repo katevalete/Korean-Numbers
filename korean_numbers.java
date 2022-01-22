@@ -38,8 +38,8 @@ public class Korean_Numbers {
 
   }
 
-  //outside code decides which number system to use
-  public static String numToWords(long num, HashMap<String, String> numberMap) {
+  public static String numToSino(long num, HashMap<String, String> numberMap) {
+    System.out.println("converting the number " + num);
     String numStr = Long.toString(num);
 
     //builing the String
@@ -71,7 +71,7 @@ public class Korean_Numbers {
       System.out.println("powerOf10: " + powerOf10);
 
       String pow10Str = Long.toString(powerOf10);
-      String pow10Key = numberMap.get(pow10Str);
+      String pow10Key = numberMap.get(pow10Str); //should be value
 
       if (pow10Key.length() == 2) { //if the powerOf10's value is of length 2
         System.out.println("power of 10 key: " + pow10Key);
@@ -94,7 +94,7 @@ public class Korean_Numbers {
           System.out.println("substring length: " + subStrLength);
           
           //call numToWords for the SUBSTRING
-          //result += numToWords(numCopy, numberMap) + "만 ";
+          result += numToSino(numCopy, numberMap) + "만 ";
 
           //update index
           index += subStrLength;
@@ -116,7 +116,7 @@ public class Korean_Numbers {
           System.out.println("substring length: " + subStrLength);
           
           //call numToWords for numCopy
-          //result += numToWords(numCopy, numberMap) + "억 ";
+          result += numToSino(numCopy, numberMap) + "억 ";
 
           //update index
           index += subStrLength;
@@ -142,7 +142,7 @@ public class Korean_Numbers {
 
         //if highest power and digit is 1 for 10^12 and 10^8
         if (currentPower == highestPower && (highestPower == 8 || highestPower == 12) && digit.equals("1")) {
-          result += "일" + pow10Key;
+          result += "일" + pow10Key + " ";
         }
         
         else {
@@ -166,6 +166,40 @@ public class Korean_Numbers {
     return result;
   }
 
+  public static String numToNative(long num, HashMap<String, String> numberMap) {
+    System.out.println("converting the number " + num);
+    String numStr = Long.toString(num);
+
+    if (numberMap.containsKey(numStr)) {
+      return numberMap.get(numStr);
+    }
+
+    String result = "";
+    int length = numStr.length();
+
+    if (length == 2) { //find the key of digit * 10
+      String digit = Character.toString(numStr.charAt(0));
+      int pow10Key = Integer.parseInt(digit) * 10;
+      result += numberMap.get(Integer.toString(pow10Key));
+      //System.out.println("current result: " + result);
+
+      String onesPlace = Character.toString(numStr.charAt(1));
+      result += numberMap.get(onesPlace);
+    }
+
+    return result;
+  }
+
+  //outside code decides which number system to use
+  public static String numToWords(long num, HashMap<String, String> numberMap, int type) {
+    if (type == SINO) {
+      return numToSino(num, numberMap);
+    }
+    else { // Native-Korean number
+      return numToNative(num, numberMap);
+    }
+  }
+
   public static void main(String[] args) {
     System.out.println("Hello");
     System.out.println("Testing readNumberFile()");
@@ -180,7 +214,7 @@ public class Korean_Numbers {
     System.out.println(nativeMap.keySet());
 
     //testing numToWords
-    System.out.println(numToWords(99, sinoMap));
+    //System.out.println(numToWords(99, sinoMap));
     //System.out.println(numToWords(99, nativeMap));
 
     /*
@@ -211,6 +245,19 @@ public class Korean_Numbers {
     //System.out.println(numToWords(12, sinoMap));
     //System.out.println(numToWords(1, sinoMap));
 
-    System.out.println(numToWords(1002, sinoMap));
+    /*
+    System.out.println(numToWords(92, sinoMap));
+    System.out.println(numToWords(123456, sinoMap));
+    System.out.println(numToWords(999999, sinoMap));
+    System.out.println(numToWords(1234567, sinoMap));
+    System.out.println(numToWords(12345678987L, sinoMap));
+    System.out.println(numToWords(123456789876L, sinoMap));
+    System.out.println(numToWords(1234567898765L, sinoMap));
+    */
+
+    //System.out.println(numToWords(1234, sinoMap, SINO));
+    //System.out.println(numToWords(99, nativeMap, NATIVE));
+
+
   }
 }
