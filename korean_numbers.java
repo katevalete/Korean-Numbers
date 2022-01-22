@@ -274,7 +274,7 @@ public class Korean_Numbers {
     if (type == SINO) {
       System.out.println("Sino-Korean number: ");
       //let user enter range??
-      Long randLong = ThreadLocalRandom.current().nextLong(0, 10000000000000L); 
+      Long randLong = ThreadLocalRandom.current().nextLong(0, max); 
       System.out.println(randLong);
       System.out.println(numToWords(randLong, sinoMap, SINO));
     }
