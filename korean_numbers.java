@@ -8,6 +8,8 @@ import java.lang.String;
 
 import java.math.BigDecimal;
 
+import java.util.Random;
+
 public class Korean_Numbers {
 
   private static final int SINO = 0;
@@ -213,6 +215,15 @@ public class Korean_Numbers {
     readNumberFile("nativeNumbers.txt", nativeMap);
     System.out.println(nativeMap.keySet());
 
+    //randomly choose between SINO and NATIVE
+    Random rand = new Random();
+    int type = rand.nextInt(2);
+    System.out.println("type: " + type);
+
+    Long randNum = rand.nextLong(); //find out how to set range
+
+    
+
     //testing numToWords
     //System.out.println(numToWords(99, sinoMap));
     //System.out.println(numToWords(99, nativeMap));
@@ -257,7 +268,5 @@ public class Korean_Numbers {
 
     //System.out.println(numToWords(1234, sinoMap, SINO));
     //System.out.println(numToWords(99, nativeMap, NATIVE));
-
-
   }
 }
