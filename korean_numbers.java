@@ -276,6 +276,8 @@ public class Korean_Numbers {
 
     Long randNum;
     String translation;
+    
+    while ()
     if (type == SINO) {
       System.out.println("Sino-Korean number: ");
       //let user enter range??
