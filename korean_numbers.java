@@ -11,8 +11,8 @@ import java.math.BigDecimal;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyAdapter;
+import java.awt.event.*;
+import javax.swing.*;
 
 public class Korean_Numbers {
 
@@ -250,6 +250,19 @@ public class Korean_Numbers {
   }
 
   public static void main(String[] args) {
+    
+    //testing
+    JFrame frame = new JFrame();
+    JPanel panel = new JPanel();
+    JTextField field = new JTextField(20);
+    field.addKeyListener(new KeyDemoKeyListener());
+    panel.add(field);
+    frame.getContentPane().add(panel);
+
+    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    frame.setSize(500, 500);
+    frame.setVisible(true);
+    
     //System.out.println("Hello");
     //System.out.println("Testing readNumberFile()");
     
@@ -277,7 +290,6 @@ public class Korean_Numbers {
     Long randNum;
     String translation;
     
-    while ()
     if (type == SINO) {
       System.out.println("Sino-Korean number: ");
       //let user enter range??
@@ -291,5 +303,8 @@ public class Korean_Numbers {
       System.out.println(randNum);
       translation = numToWords(randNum, nativeMap, NATIVE);
     }
+
+    //print result
   }
 }
+
