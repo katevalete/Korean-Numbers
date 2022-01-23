@@ -11,6 +11,9 @@ import java.math.BigDecimal;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
+
 public class Korean_Numbers {
 
   private static final int SINO = 0;
@@ -271,18 +274,20 @@ public class Korean_Numbers {
     Long max = getMax(scan);
     System.out.println("Max: " + max);
 
+    Long randNum;
+    String translation;
     if (type == SINO) {
       System.out.println("Sino-Korean number: ");
       //let user enter range??
-      Long randLong = ThreadLocalRandom.current().nextLong(0, max); 
-      System.out.println(randLong);
-      System.out.println(numToWords(randLong, sinoMap, SINO));
+      randNum = ThreadLocalRandom.current().nextLong(0, max); 
+      System.out.println(randNum);
+      translation = numToWords(randNum, sinoMap, SINO);
     }
     else {
       System.out.println("Native-Korean number: ");
-      Long randInt = (long) rand.nextInt(100);
-      System.out.println(randInt);
-      System.out.println(numToWords(randInt, nativeMap, NATIVE));
+      randNum = (long) rand.nextInt(100);
+      System.out.println(randNum);
+      translation = numToWords(randNum, nativeMap, NATIVE);
     }
   }
 }
