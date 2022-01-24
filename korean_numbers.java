@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
+import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
@@ -18,6 +19,7 @@ public class Korean_Numbers {
 
   private static final int SINO = 0;
   private static final int NATIVE = 1;
+  public static boolean isQPressed = false;
 
   // reads number file and adds key-value pairs to a hashmap
   public static void readNumberFile(String filename, HashMap<String, String> map) {
@@ -249,19 +251,26 @@ public class Korean_Numbers {
     //if (scan.hasNextLong()) System.out.println("valid input");
   }
 
+
   public static void main(String[] args) {
     
-    //testing
+    /*g
     JFrame frame = new JFrame();
     JPanel panel = new JPanel();
-    JTextField field = new JTextField(20);
-    field.addKeyListener(new KeyDemoKeyListener());
-    panel.add(field);
+    JLabel jlabel = new JLabel("This is a label");
+    //jlabel.setBounds(0, 60, 200, 50);
+    //JTextField field = new JTextField(20);
+    //field.addKeyListener(new KeyDemoKeyListener());
     frame.getContentPane().add(panel);
+    frame.setLayout(new GridBagLayout());
+    //panel.add(field);
+    panel.add(jlabel);
+    
 
     frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     frame.setSize(500, 500);
     frame.setVisible(true);
+    */
     
     //System.out.println("Hello");
     //System.out.println("Testing readNumberFile()");
@@ -290,19 +299,21 @@ public class Korean_Numbers {
     Long randNum;
     String translation;
     
-    if (type == SINO) {
-      System.out.println("Sino-Korean number: ");
-      //let user enter range??
-      randNum = ThreadLocalRandom.current().nextLong(0, max); 
-      System.out.println(randNum);
-      translation = numToWords(randNum, sinoMap, SINO);
+      if (type == SINO) {
+        System.out.println("Sino-Korean number: ");
+        //let user enter range??
+        randNum = ThreadLocalRandom.current().nextLong(0, max); 
+        System.out.println(randNum);
+        translation = numToWords(randNum, sinoMap, SINO);
     }
-    else {
-      System.out.println("Native-Korean number: ");
-      randNum = (long) rand.nextInt(100);
-      System.out.println(randNum);
-      translation = numToWords(randNum, nativeMap, NATIVE);
-    }
+      else {
+        System.out.println("Native-Korean number: ");
+        randNum = (long) rand.nextInt(100);
+        System.out.println(randNum);
+        translation = numToWords(randNum, nativeMap, NATIVE);
+      }
+      System.out.println(translation);
+    
 
     //print result
   }
